@@ -50,7 +50,7 @@ class TFCheckinCommand < TFCommand
 	end
 end
 
-class	TFCommandDecorator
+class TFCommandDecorator
 	def initialize(command)
 		@command = command
 	end
