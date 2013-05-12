@@ -4,3 +4,4 @@
 :int_branch: Integration
 :username: name
 :password: password
+:custom_commands_file: custom_commands.rb

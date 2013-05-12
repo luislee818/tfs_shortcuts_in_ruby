@@ -7,6 +7,16 @@ class TFFacade
 		@drive = options[:workspace_path].match(/(\w:)\\/)[1]
 	end
 
+	def initialize_from_file(path)
+		instance_eval(File.read(path))
+	end
+
+	def add_command(name, &block)
+		self.class.send(:define_method, name) do
+			instance_eval(&block)
+		end
+	end
+
 	def get_dev
 		puts "Get latest of #{@options[:dev_branch]} to #{@options[:workspace_path]}"
 		recursive_get_branch @options[:dev_branch]
@@ -39,6 +49,10 @@ class TFFacade
 		command = suppress_prompt(append_login_if_necessary(make_recursive(command)))
 
 		execute_core command
+	end
+
+	def log(message)
+		puts message
 	end
 
 	def execute(command)
