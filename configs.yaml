@@ -6,3 +6,4 @@
 :username: username
 :password: password
 :custom_commands_file: custom_commands.rb
+:tf_path: 'C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\tf.exe'

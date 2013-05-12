@@ -27,7 +27,7 @@ class TFFacade
 
 	def merge_dev_to_int_without_prompt
 		log "Merge from #{@options[:dev_branch]} to #{@options[:int_branch]}"
-		command = TFMergeCommand.new(@options[:dev_branch], @options[:int_branch])
+		command = TFMergeCommand.new(@options[:dev_branch], @options[:int_branch], @options[:tf_path])
 		command = suppress_prompt(append_login_if_necessary(make_recursive(command)))
 
 		execute_core command
@@ -35,7 +35,7 @@ class TFFacade
 
 	def resolve
 		log "Resolve merge conflicts by taking from source"
-		command = TFResolveCommand.new
+		command = TFResolveCommand.new(@options[:tf_path])
 		command = append_login_if_necessary(make_recursive(command))
 
 		execute_core command
@@ -43,7 +43,7 @@ class TFFacade
 
 	def checkin_int_without_prompt
 		log "Checkin to #{@options[:int_branch]} without prompt"
-		command = TFCheckinCommand.new(@options[:int_branch], @options[:merge_int_checkin_note])
+		command = TFCheckinCommand.new(@options[:int_branch], @options[:merge_int_checkin_note], @options[:tf_path])
 		command = suppress_prompt(append_login_if_necessary(make_recursive(command)))
 
 		execute_core command
@@ -64,7 +64,7 @@ class TFFacade
 	private
 
 	def recursive_get_branch(branch)
-		command = TFGetCommand.new branch
+		command = TFGetCommand.new(branch, @options[:tf_path])
 		command = append_login_if_necessary(make_recursive(command))
 
 		execute_core command

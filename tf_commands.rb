@@ -1,13 +1,18 @@
 class TFCommand
-	def initialize(name)
+	def initialize(name, tf_path=nil)
 		@name = name
+		@tf_path = tf_path
+	end
+
+	def get_tf
+		@tf_path || 'tf'
 	end
 end
 
 class TFGetCommand < TFCommand
-	def initialize(itemspec)
+	def initialize(itemspec, tf_path=nil)
 		@itemspec = itemspec
-		super('Get')
+		super('Get', tf_path)
 	end
 
 	def description
@@ -18,15 +23,15 @@ class TFGetCommand < TFCommand
 	end
 
 	def get_raw_command
-		"tf get #{@itemspec}"
+		%Q("#{get_tf}" get #{@itemspec})
 	end
 end
 
 class TFCheckinCommand < TFCommand
-	def initialize(itemspec, comment)
+	def initialize(itemspec, comment, tf_path=nil)
 		@itemspec = itemspec
 		@comment = comment
-		super('Checkin')
+		super('Checkin', tf_path)
 	end
 
 	def description
@@ -36,15 +41,15 @@ class TFCheckinCommand < TFCommand
 	end
 
 	def get_raw_command
-		%Q(tf checkin /comment:"#{@comment}" #{@itemspec})
+		%Q("#{get_tf}" checkin /comment:"#{@comment}" #{@itemspec})
 	end
 end
 
 class TFMergeCommand < TFCommand
-	def initialize(source_branch, target_branch)
+	def initialize(source_branch, target_branch, tf_path=nil)
 		@source_branch = source_branch
 		@target_branch = target_branch
-		super('Merge')
+		super('Merge', tf_path)
 	end
 
 	def description
@@ -53,14 +58,14 @@ class TFMergeCommand < TFCommand
 	end
 
 	def get_raw_command
-		"tf merge #{@source_branch} #{@target_branch}"
+		%Q("#{get_tf}" merge #{@source_branch} #{@target_branch})
 	end
 end
 
 class TFResolveCommand < TFCommand
-	def initialize(resolve_option='TakeTheirs')
+	def initialize(tf_path=nil, resolve_option='TakeTheirs')
 		@resolve_option = resolve_option
-		super('Resolve')
+		super('Resolve', tf_path)
 	end
 
 	def description
@@ -70,7 +75,7 @@ class TFResolveCommand < TFCommand
 	end
 
 	def get_raw_command
-		"tf resolve /auto:#{@resolve_option}"
+		%Q("#{get_tf}" resolve /auto:#{@resolve_option})
 	end
 end
 
