@@ -1,4 +1,4 @@
-require_relative 'tf_command'
+require_relative 'tf_commands'
 
 class TFFacade
 	def initialize(options)
