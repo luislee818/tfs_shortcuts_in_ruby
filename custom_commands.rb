@@ -13,8 +13,8 @@ add_command 'workflow_merge_dev_to_int' do
 	get_integration
 	log '---------- Get Integration branch done --------'
 
-	log '---------- Merging from Dev to Integration branch --------'
-	merge_dev_to_int
+	log '---------- Merging from Dev to Integration branch without prompt --------'
+	merge_dev_to_int_without_prompt
 	log '---------- Merge from Dev to Integration branch done --------'
 
 	log '---------- Resolving potential merge conflicts by taking from source --------'

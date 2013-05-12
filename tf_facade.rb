@@ -25,10 +25,10 @@ class TFFacade
 		recursive_get_branch @options[:int_branch]
 	end
 
-	def merge_dev_to_int
+	def merge_dev_to_int_without_prompt
 		log "Merge from #{@options[:dev_branch]} to #{@options[:int_branch]}"
 		command = TFMergeCommand.new(@options[:dev_branch], @options[:int_branch])
-		command = append_login_if_necessary(make_recursive(command))
+		command = suppress_prompt(append_login_if_necessary(make_recursive(command)))
 
 		execute_core command
 	end
