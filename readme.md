@@ -20,7 +20,7 @@ Assuming you use a Main branch and Integration branch, there are some coarse-gra
 Options can be specified in *options.yaml* file:
 ```yaml
 ---
-:workspace_path: 'absolute_path_to_workspace'
+:workspace_path: absolute_path_to_workspace
 :dev_branch: dev_branch_name
 :int_branch: integratio_branch_name
 :merge_int_checkin_note: checkin_note_for_merge_to_integration
@@ -48,4 +48,4 @@ Built-in commands:
 Built-in custom commands:
 * workflow\_merge\_dev\_to\_int
 
-[1]: http://msdn.microsoft.com/en-us/library/z51z7zy0(v=vs.100).aspx)
+[1]: http://msdn.microsoft.com/en-us/library/z51z7zy0(v=vs.100).aspx
