@@ -28,5 +28,7 @@ if File.exists? custom_commands_file
 	facade.initialize_from_file custom_commands_file
 end
 
-# pass command to our TFFacade
-facade.execute command_from_input
+# change working directory and pass command to our TFFacade
+Dir.chdir(options[:workspace_path]) do
+	facade.execute command_from_input
+end

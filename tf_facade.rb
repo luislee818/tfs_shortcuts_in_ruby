@@ -3,8 +3,6 @@ require_relative 'tf_command'
 class TFFacade
 	def initialize(options)
 		@options = options
-
-		@drive = options[:workspace_path].match(/(\w:)\\/)[1]
 	end
 
 	def initialize_from_file(path)
@@ -91,13 +89,7 @@ class TFFacade
 	def execute_core(tf_command)
 		raw_command = tf_command.get_raw_command
 
-		cd_to_workspace
-		exec raw_command
-	end
-
-	def cd_to_workspace
-		exec "cd #{@options[:workspace_path]}"
-		exec @drive
+		system raw_command
 	end
 
 	# uncomment to test
