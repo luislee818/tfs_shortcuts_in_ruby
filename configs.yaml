@@ -1,5 +1,5 @@
 ---
-:local_full_path: 'path_to_workspace'
+:workspace_path: 'c:\path_to_workspace'
 :dev_branch: Main
 :int_branch: Integration
 :username: name

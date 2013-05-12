@@ -1,25 +1,13 @@
 class TFCommand
-	def initialize(name, options)
+	def initialize(name)
 		@name = name
-		@options = options
-	end
-
-	def name
-		@name
-	end
-
-	def description
-		'A TF command'
-	end
-
-	def get_raw_command
-		raise 'should be implemented in subclasses'
 	end
 end
 
 class TFGetCommand < TFCommand
-	def initialize(options)
-		super('Get', options)
+	def initialize(itemspec)
+		@itemspec = itemspec
+		super('Get')
 	end
 
 	def description
@@ -30,13 +18,15 @@ class TFGetCommand < TFCommand
 	end
 
 	def get_raw_command
-		"tf get #{@options[:itemspec]}"
+		"tf get #{@itemspec}"
 	end
 end
 
 class TFCheckinCommand < TFCommand
-	def initialize(options)
-		super('Checkin', options)
+	def initialize(itemspec, comment)
+		@itemspec = itemspec
+		@comment = comment
+		super('Checkin')
 	end
 
 	def description
@@ -46,7 +36,41 @@ class TFCheckinCommand < TFCommand
 	end
 
 	def get_raw_command
-		"tf checkin /comment:#{@options[:comment]} #{@options[:itemspec]}"
+		"tf checkin /comment:#{@comment} #{@itemspec}"
+	end
+end
+
+class TFMergeCommand < TFCommand
+	def initialize(source_branch, target_branch)
+		@source_branch = source_branch
+		@target_branch = target_branch
+		super('Merge')
+	end
+
+	def description
+		%Q{The merge command applies changes from one branch into another. \
+		http://msdn.microsoft.com/en-us/library/bd6dxhfy(v=vs.100).aspx}
+	end
+
+	def get_raw_command
+		"tf merge #{@source_branch} #{@target_branch}"
+	end
+end
+
+class TFResolveCommand < TFCommand
+	def initialize(resolve_option='TakeTheirs')
+		@resolve_option = resolve_option
+		super('Resolve')
+	end
+
+	def description
+		%Q{Lets you resolve conflicts between changed items in your workspace \
+		and the latest or destination versions of items on the server.
+		http://msdn.microsoft.com/en-us/library/6yw3tcdy(v=vs.100).aspx}
+	end
+
+	def get_raw_command
+		"tf resolve /auto:#{@resolve_option}"
 	end
 end
 
@@ -80,7 +104,7 @@ class TFCommandAppendLoginDecorator < TFCommandDecorator
 	end
 
 	def get_raw_command
-		old_raw = super.get_raw_command
+		old_raw = super
 		append_login old_raw
 	end
 
@@ -97,7 +121,45 @@ class TFCommandRecursiveDecorator < TFCommandDecorator
 	end
 
 	def get_raw_command
-		old_raw = @command.get_raw_command
+		old_raw = super
+		make_recursive old_raw
+	end
+
+	private
+
+	def make_recursive(raw_tf_command)
+		"#{raw_tf_command} /recursive"
+	end
+end
+
+class TFCommandSuppressPromptDecorator < TFCommandDecorator
+	def initialize(command)
+		super command
+	end
+
+	def name
+		"#{command.name} without prompt"
+	end
+
+	def get_raw_command
+		old_raw = super
+		suppress_prompt old_raw
+	end
+
+	private
+
+	def suppress_prompt(raw_tf_command)
+		"#{raw_tf_command} /noprompt"
+	end
+end
+
+class TFCommandRecursiveDecorator < TFCommandDecorator
+	def name
+		"#{command.name} recursively"
+	end
+
+	def get_raw_command
+		old_raw = super
 		make_recursive old_raw
 	end
 
