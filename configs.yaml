@@ -2,6 +2,6 @@
 :workspace_path: 'c:\path_to_workspace'
 :dev_branch: Main
 :int_branch: Integration
-:username: name
+:merge_int_checkin_note: Full merge from Main to Integration
 :password: password
 :custom_commands_file: custom_commands.rb

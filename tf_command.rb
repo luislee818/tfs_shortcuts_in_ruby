@@ -36,7 +36,7 @@ class TFCheckinCommand < TFCommand
 	end
 
 	def get_raw_command
-		"tf checkin /comment:#{@comment} #{@itemspec}"
+		%Q(tf checkin /comment:"#{@comment}" #{@itemspec})
 	end
 end
 
