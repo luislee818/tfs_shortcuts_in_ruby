@@ -3,5 +3,6 @@
 :dev_branch: Main
 :int_branch: Integration
 :merge_int_checkin_note: Full merge from Main to Integration
+:username: username
 :password: password
 :custom_commands_file: custom_commands.rb
