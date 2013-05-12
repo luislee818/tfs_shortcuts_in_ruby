@@ -17,7 +17,7 @@ Assuming you use a Main branch and Integration branch, there are some coarse-gra
 	* ...
 
 ##Configuration
-Options can be specified in *options.yaml* file:
+Options can be specified in *configs.yaml* file:
 ```yaml
 ---
 :workspace_path: absolute_path_to_workspace
