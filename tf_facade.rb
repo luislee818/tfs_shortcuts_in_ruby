@@ -18,17 +18,17 @@ class TFFacade
 	end
 
 	def get_dev
-		puts "Get latest of #{@options[:dev_branch]} to #{@options[:workspace_path]}"
+		log "Get latest of #{@options[:dev_branch]} to #{@options[:workspace_path]}"
 		recursive_get_branch @options[:dev_branch]
 	end
 
 	def get_integration
-		puts "Get latest of #{@options[:int_branch]} to #{@options[:workspace_path]}"
+		log "Get latest of #{@options[:int_branch]} to #{@options[:workspace_path]}"
 		recursive_get_branch @options[:int_branch]
 	end
 
 	def merge_dev_to_int
-		puts "Merge from #{@options[:dev_branch]} to #{@options[:int_branch]}"
+		log "Merge from #{@options[:dev_branch]} to #{@options[:int_branch]}"
 		command = TFMergeCommand.new(@options[:dev_branch], @options[:int_branch])
 		command = append_login_if_necessary(make_recursive(command))
 
@@ -36,7 +36,7 @@ class TFFacade
 	end
 
 	def resolve
-		puts "Resolve merge conflicts by taking from source"
+		log "Resolve merge conflicts by taking from source"
 		command = TFResolveCommand.new
 		command = append_login_if_necessary(make_recursive(command))
 
@@ -44,7 +44,7 @@ class TFFacade
 	end
 
 	def checkin_int_without_prompt
-		puts "Checkin to #{@options[:int_branch]} without prompt"
+		log "Checkin to #{@options[:int_branch]} without prompt"
 		command = TFCheckinCommand.new(@options[:int_branch], @options[:merge_int_checkin_note])
 		command = suppress_prompt(append_login_if_necessary(make_recursive(command)))
 
@@ -60,7 +60,7 @@ class TFFacade
 	end
 
 	def method_missing(method_name, *args)
-		puts "Do not understand command #{method_name}"
+		log "Do not understand command #{method_name}"
 	end
 
 	private
